@@ -12,3 +12,5 @@ def check_spread(x,y,colour):
     # parameter x(int),y(int),colour(str)
     # return boolean(True/Flase)
     pass
+
+current_colour='N/A'
