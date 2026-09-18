@@ -13,10 +13,14 @@ def draw_rect(x,y,sizee,colour):
     rect(x-sizee/2,y-sizee/2,sizee,sizee)
     no_fill()
     
-def change_colour(colour):
+def change_colour(listt,new_colour):
     # parameter colour(str)
     # return -
-    pass
+    new_colour=colour_for_paint
+    i=0
+    while i<len(listt):
+        listt[i]=new_colour
+        i+=1
 
 def check_spread(x,y,colour):
     # parameter x(int),y(int),colour(str)
@@ -27,7 +31,7 @@ def game_screen_boarder():
     pass
 
 # instant value
-current_colour='N/A'
+colour_for_paint='N/A'
 x=100 #for testing
 y=100 #for testing
 sizee=20 #do not change
