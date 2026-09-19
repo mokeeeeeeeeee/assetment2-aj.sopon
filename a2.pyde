@@ -30,6 +30,10 @@ def check_spread(x,y,colour):
 def game_screen_boarder():
     pass
 
+def mouse_pressed():
+    print(mouse_x,mouse_y)
+    return [mouse_x,mouse_y]
+
 # instant value
 colour_for_paint='N/A'
 x=100 #for testing
@@ -55,15 +59,19 @@ center_coordinate=[[120,100],[160,100],[200,100],[240,100],[280,100],[320,100],[
 # green 0 255 204 #00FFCC | blue 0 153 255 #0099FF | yellow 255 204 0 #FFCC00 | red 255 0 102 #FF0066
 colour=[['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#FF0066'], ['#FF0066'], ['#FF0066'], ['#FF0066'], ['#FF0066'], ['#FF0066'], ['#FF0066'], ['#FF0066'], ['#FF0066'], ['#FF0066'], ['#FF0066'], ['#FF0066'], ['#FF0066'], ['#FF0066'], ['#FF0066'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#0099FF'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#FFCC00'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC']]
 
-
+colour_select_coordinate=[[850,665],[850,575],[850,500],[850,420]]
+colour_select=[['#00FFCC'],['#0099FF'],['#FFCC00'],['#FF0066']]
 
 def setup():
     size(1000,1000)
-  
+    frame_rate(60)
 def draw():
     global x,y,sizee
     i=0
     background(255)
     while i<len(center_coordinate):  
         draw_rect(center_coordinate[i][0],center_coordinate[i][1],sizee,colour[i][0])
+        i+=1
+    while i<len(colour_select_coordinate):  
+        draw_rect(colour_select_coordinate[i][0],colour_select_coordinate[i][1],sizee,colour_select[i][0])
         i+=1
