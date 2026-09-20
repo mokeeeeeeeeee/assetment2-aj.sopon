@@ -1,43 +1,7 @@
 # note for aj.sopon : I use thonny with py5 plug in, some build in function name may be strange :)
-def draw_box(x,y,sizee,colour):
-    stroke(colour)
-    line(x-sizee,y+sizee,x+sizee,y+sizee)
-    line(x-sizee,y+sizee,x-sizee,y-sizee)
-    line(x-sizee,y-sizee,x+sizee,y-sizee)
-    line(x+sizee,y-sizee,x+sizee,y+sizee)
-    no_stroke()
-
-def draw_rect(x,y,sizee,colour):
-    sizee=sizee*2
-    fill(colour)
-    rect(x-sizee/2,y-sizee/2,sizee,sizee)
-    no_fill()
-    
-def change_colour(listt,new_colour):
-    # parameter colour(str)
-    # return -
-    new_colour=colour_for_paint
-    i=0
-    while i<len(listt):
-        listt[i]=new_colour
-        i+=1
-
-def check_spread(x,y,colour):
-    # parameter x(int),y(int),colour(str)
-    # return boolean(True/Flase)
-    pass
-
-def game_screen_boarder():
-    pass
-
-def mouse_pressed():
-    print(mouse_x,mouse_y)
-    return [mouse_x,mouse_y]
 
 # instant value
 colour_for_paint='N/A'
-x=100 #for testing
-y=100 #for testing
 sizee=20 #do not change
 center_coordinate=[[120,100],[160,100],[200,100],[240,100],[280,100],[320,100],[360,100],[400,100],[440,100],[480,100],[520,100],[560,100],[600,100],[640,100],[680,100],
                    [120,140],[160,140],[200,140],[240,140],[280,140],[320,140],[360,140],[400,140],[440,140],[480,140],[520,140],[560,140],[600,140],[640,140],[680,140],
@@ -62,11 +26,58 @@ colour=[['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FF
 colour_select_coordinate=[[850,660],[850,540],[850,420],[850,300]]
 colour_select=[['#00FFCC'],['#0099FF'],['#FFCC00'],['#FF0066']]
 
+def draw_box(x,y,sizee,colour):
+    stroke(colour)
+    line(x-sizee,y+sizee,x+sizee,y+sizee)
+    line(x-sizee,y+sizee,x-sizee,y-sizee)
+    line(x-sizee,y-sizee,x+sizee,y-sizee)
+    line(x+sizee,y-sizee,x+sizee,y+sizee)
+    no_stroke()
+
+def draw_rect(x,y,sizee,colour):
+    sizee=sizee
+    fill(colour)
+    rect(x-sizee,y-sizee,sizee*2,sizee*2)
+    no_fill()
+    
+def change_colour(listt,new_colour):
+    # parameter colour(str)
+    # return -
+    new_colour=colour_for_paint
+    i=0
+    while i<len(listt):
+        listt[i]=new_colour
+        i+=1
+
+def check_spread(x,y,colour):
+    # parameter x(int),y(int),colour(str)
+    # return boolean(True/Flase)
+    pass
+
+def game_screen_boarder():
+    pass
+
+def mouse_pressed():
+    global colour_for_paint
+    if (mouse_x > 830 and mouse_x < 870) and (mouse_y > 280 and mouse_y < 680): #change colour
+            if (mouse_x > 830 and mouse_x < 870) and (mouse_y > 280 and mouse_y < 320):
+                colour_for_paint='#FF0066'#red
+                print(colour_for_paint)
+            elif (mouse_x > 830 and mouse_x < 870) and (mouse_y > 400 and mouse_y < 440):
+                colour_for_paint='#FFCC00'#yellow
+                print(colour_for_paint)
+            elif (mouse_x > 830 and mouse_x < 870) and (mouse_y > 520 and mouse_y < 560):
+                colour_for_paint='#0099FF'#blue
+                print(colour_for_paint)
+            elif (mouse_x > 830 and mouse_x < 870) and (mouse_y > 640 and mouse_y < 680):
+                colour_for_paint='#00FFCC'#green
+                print(colour_for_paint)
+
 def setup():
     size(1000,1000)
     frame_rate(60)
 def draw():
-    global x,y,sizee
+    global sizee,colour_for_paint
     i=0
     background(255)
     while i<len(center_coordinate):  
@@ -76,3 +87,4 @@ def draw():
     while i<len(colour_select_coordinate):  
         draw_rect(colour_select_coordinate[i][0],colour_select_coordinate[i][1],sizee,colour_select[i][0])
         i+=1
+    
