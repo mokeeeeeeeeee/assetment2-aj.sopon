@@ -25,6 +25,7 @@ colour=[['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FFCC'], ['#00FF
 
 colour_select_coordinate=[[850,660],[850,540],[850,420],[850,300]]
 colour_select=[['#00FFCC'],['#0099FF'],['#FFCC00'],['#FF0066']]
+colour_human_language=[['green'],['blue'],['yellow'],['red']]
 
 def draw_box(x,y,sizee,colour):
     stroke(colour)
@@ -52,7 +53,7 @@ def change_colour(listt,new_colour):
 def check_spread(x,y,colour):
     # parameter x(int),y(int),colour(str)
     # return boolean(True/Flase)
-    pass
+     colour_change_possible=[]
 
 def game_screen_boarder():
     pass
@@ -60,18 +61,12 @@ def game_screen_boarder():
 def mouse_pressed():
     global colour_for_paint
     if (mouse_x > 830 and mouse_x < 870) and (mouse_y > 280 and mouse_y < 680): #change colour
-            if (mouse_x > 830 and mouse_x < 870) and (mouse_y > 280 and mouse_y < 320):
-                colour_for_paint='#FF0066'#red
-                print(colour_for_paint)
-            elif (mouse_x > 830 and mouse_x < 870) and (mouse_y > 400 and mouse_y < 440):
-                colour_for_paint='#FFCC00'#yellow
-                print(colour_for_paint)
-            elif (mouse_x > 830 and mouse_x < 870) and (mouse_y > 520 and mouse_y < 560):
-                colour_for_paint='#0099FF'#blue
-                print(colour_for_paint)
-            elif (mouse_x > 830 and mouse_x < 870) and (mouse_y > 640 and mouse_y < 680):
-                colour_for_paint='#00FFCC'#green
-                print(colour_for_paint)
+        i=0
+        while i<len(colour_select_coordinate):
+            if (mouse_x>colour_select_coordinate[i][0]-20 and mouse_x<colour_select_coordinate[i][0]+20) and (mouse_y>colour_select_coordinate[i][1]-20 and mouse_y<colour_select_coordinate[i][1]+20):
+                colour_for_paint=colour_select[i][0]
+                print(colour_for_paint,colour_human_language[i][0])
+            i+=1
 
 def setup():
     size(1000,1000)
@@ -87,4 +82,5 @@ def draw():
     while i<len(colour_select_coordinate):  
         draw_rect(colour_select_coordinate[i][0],colour_select_coordinate[i][1],sizee,colour_select[i][0])
         i+=1
-    
+    #print(mouse_x,mouse_y)
+    #print(colour_for_paint)
