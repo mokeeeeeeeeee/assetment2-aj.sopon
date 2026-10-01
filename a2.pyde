@@ -36,19 +36,39 @@ def init_game():
 def spread(x,y,target_colour,new_colour):
     #parameter coordinate x(int), coordinate y(int), target_colour(str), new_colour(str)
     #return none
-    pass
+    global grid
+    grid[x][y]=new_colour
+    if target_colour == grid[x][y-1]:
+        grid[x][y-1]=new_colour
+    if target_colour == grid[x+1][y]:
+        grid[x+1][y]=new_colour
+    if target_colour == grid[x][y+1]:
+        grid[x][y+1]=new_colour
+    if target_colour == grid[x-1][y]:
+        grid[x-1][y]=new_colour
 
 def check_win():
     #no parameter
     #return bool
-    pass
+    global status
+    if max_chance < 1:
+        status='lose'
+    j=0
+    while j<row: #8
+        i=0
+        while i<column: #10
+            if grid[j][i] != colour_objective:
+                return
+            i+=1
+        j+=1
+    status='win'
 
 def change_colour(x,y,new_colour):
     #parameter coordinate x(int), coordinate y(int), new_colour(str)
     #return none
     global max_chance
     max_chance-=1
-    #check_win()
+    check_win()
     pass
 
 def get_colour_fill(colour): #finished
@@ -56,22 +76,38 @@ def get_colour_fill(colour): #finished
     #return none
     global colour_for_paint
     colour_for_paint=colour
-    print(colour_translate(colour_for_paint)) #correct
+    #print(colour_translate(colour_for_paint)) #correct
 
 def draw_hud(): #finished ??
     #no parameter
     #return none
     fill(0)
-    text(f'Target color : {colour_translate(colour_objective)}   |   Turn left : {max_chance}',10,340)
+    text(f'Target color : {colour_translate(colour_objective)}   |   Turn left : {max_chance}  |  Status : {status}',10,340)
+    text(f'Press R : Reload or reset game  |  Press S : Save game  |  Press L : Load game',10,420)
     no_fill()
-    pass
 
 def mouse_pressed():
     #no parameter
     #return none
     #print(mouse_x,mouse_y)
+    if status == 'lose' or status == 'win':
+        return
     if (mouse_x >= 0 and mouse_x<=400) and (mouse_y >= 0 and mouse_y <= 320): #game grid #correct
-        print('game')
+        j=0
+        while j<row: #8
+            i=0
+            while i<column: #10
+                if (mouse_x >= i*40 and mouse_x <= (1+i)*40) and (mouse_y >= j*40 and mouse_y <= (1+j)*40):
+                    #print(i*40,j*40,(1+i)*40,(1+j)*40,colour_translate(grid[j][i])) #correct
+                    if grid[j][i] == colour_for_paint:
+                        return
+                    spread(j,i,grid[j][i],colour_for_paint)
+                    change_colour(mouse_x,mouse_y,colour_for_paint)
+                    #print(i,j,grid[j][i],colour_for_paint) #correct
+                i+=1
+            j+=1
+        
+        
     if (mouse_x >= 80 and mouse_x<=360) and (mouse_y >= 360 and mouse_y <= 400): # select color grid #finished
         if (mouse_x >= 80 and mouse_x<=120) and (mouse_y >= 360 and mouse_y <= 400):# red
             get_colour_fill('#FF0066')
@@ -93,10 +129,15 @@ def load_game():
     #return ?
     pass
 
-def key_pressed():
+def key_pressed(): #finished
     #no parameter
     #return none
-    pass
+    if key.lower() == 's':
+        save_game()
+    if key.lower() == 'l':
+        load_game()
+    if key.lower() == 'r':
+        init_game()
 
 #-------------------- OPTIONAL FUNCTION --------------------#
 
@@ -122,20 +163,19 @@ def draw():
     no_stroke()
     while j<row:
         i=0
-        while i<column:
+        while i<column: #game grid
             fill(grid[j][i])
             rect(i*sizee,j*sizee,sizee,sizee)
             i+=1
         j+=1
     stroke(0)
     i=0
-    while i<len(colour_possible):
+    while i<len(colour_possible): #select color 
         no_stroke()
         if colour_for_paint == colour_possible[i]:
             stroke(0)
         fill(colour_possible[i])
         rect(80+sizee*i*2,360,sizee,sizee)
-        
         i+=1
         
     draw_hud()
