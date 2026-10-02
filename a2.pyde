@@ -7,17 +7,18 @@ sizee=40
 colour_possible=['#FF0066','#00FFCC','#0099FF','#FFCC00'] # red green blue yellow
 colour_for_paint='N/A'
 colour_objective='N/A'
-status='playing'
+status='PLAYING'
 max_chance=12
 grid=[]
+datafile='saveloaddata.txt'
 
-def init_game():
+def init_game(): #finished
     #no parameter
     #return none
     global grid,colour_objective,status,max_chance
     grid=[]
     colour_objective=colour_possible[random.randint(0,3)]
-    status='playing'
+    status='PLAYING'
     max_chance=12
     
     j=0
@@ -47,12 +48,12 @@ def spread(x,y,target_colour,new_colour):
     if target_colour == grid[x-1][y]:
         grid[x-1][y]=new_colour
 
-def check_win():
+def check_win(): #finsihed ??
     #no parameter
     #return bool
     global status
     if max_chance < 1:
-        status='lose'
+        status='LOSE'
     j=0
     while j<row: #8
         i=0
@@ -61,9 +62,9 @@ def check_win():
                 return
             i+=1
         j+=1
-    status='win'
+    status='WIN'
 
-def change_colour(x,y,new_colour):
+def change_colour(x,y,new_colour): #finsihed
     #parameter coordinate x(int), coordinate y(int), new_colour(str)
     #return none
     global max_chance
@@ -78,7 +79,7 @@ def get_colour_fill(colour): #finished
     colour_for_paint=colour
     #print(colour_translate(colour_for_paint)) #correct
 
-def draw_hud(): #finished ??
+def draw_hud(): #finished 
     #no parameter
     #return none
     fill(0)
@@ -90,7 +91,7 @@ def mouse_pressed():
     #no parameter
     #return none
     #print(mouse_x,mouse_y)
-    if status == 'lose' or status == 'win':
+    if status == 'LOSE' or status == 'WIN':
         return
     if (mouse_x >= 0 and mouse_x<=400) and (mouse_y >= 0 and mouse_y <= 320): #game grid #correct
         j=0
@@ -119,21 +120,69 @@ def mouse_pressed():
             get_colour_fill('#FFCC00')
         
 
-def save_game(moves_left,target_final_color,game_state,board):
+def save_game(moves_left,target_final_color,game_state,board): #finished
     #parameter moves_left(int), target_final_color(str), game_state(str), board(2d array(list))
-    #return ?
-    pass
+    #return none
+    try:
+        file=open(datafile,'w')
+        file.write(f'{str(moves_left)}\n')
+        file.write(f'{colour_translate(target_final_color).upper()}\n')
+        file.write(f'{game_state}\n')
+        file.write(f'{colour_translate(colour_for_paint).upper()}\n')
+        j=0
+        while j<row: #8
+            i=0
+            grid_row=[]
+            while i<column: #10
+                file.write(colour_translate(grid[j][i]).upper())
+                if i<9:
+                    file.write(',')
+                i+=1
+            file.write('\n')
+            j+=1
+        file.close()
+    except FileNotFoundError:
+        text(f'{datafile} not found',10,355)
 
 def load_game():
-    #parameter ?
-    #return ?
-    pass
+    #no parameter 
+    #return none
+    global max_chance,colour_objective,status,grid
+    data=[]
+    try:
+        with open(datafile,'r') as file: #read file
+            for i in file:
+                data.append(i.strip())
+        max_chance=int(data[0])
+        colour_objective=reverse_translate(data[1])
+        status=data[2]
+        colour_for_paint=reverse_translate(data[3])
+        i=0
+        while i<4: #remove number and str remain only list of color
+            data.remove(data[0])
+            i+=1
+            
+        i=0
+        while i<8: #split comma to change array 1d to 2d
+            data[i]=data[i].split(',')
+            i+=1;
 
+        j=0 #change color from saveloaddata
+        while j<row: #8
+            i=0
+            while i<column: #10
+                grid[j][i]=reverse_translate(data[j][i])
+                i+=1
+            j+=1
+        
+    except FileNotFoundError:
+        text(f'{datafile} not found',10,355)
+        
 def key_pressed(): #finished
     #no parameter
     #return none
     if key.lower() == 's':
-        save_game()
+        save_game(max_chance,colour_objective,status,grid)
     if key.lower() == 'l':
         load_game()
     if key.lower() == 'r':
@@ -150,7 +199,21 @@ def colour_translate(colour): #finished
         return 'yellow'
     elif colour=='#FF0066':
         return 'red'
+    else:
+        return 'N/A'
 
+def reverse_translate(colour): #finished
+    if colour.lower() == 'green':
+        return '#00FFCC'
+    elif colour.lower() == 'blue':
+        return '#0099FF'
+    elif colour.lower() == 'yellow':
+        return '#FFCC00'
+    elif colour.lower() == 'red':
+        return '#FF0066'
+    else:
+        return 'N/A'
+    
 #-------------------- OPTIONAL FUNCTION --------------------#
 
 def setup():
