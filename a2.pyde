@@ -1,4 +1,4 @@
-# note for aj.sopon : I use thonny with py5 plug in, some build in function name may be strange :)
+# note for aj.sopon : I use thonny with py5 plug in, some built in function name may be strange :)
 import random
 row=8
 column=10
@@ -12,7 +12,7 @@ max_chance=12
 grid=[]
 datafile='saveloaddata.txt'
 
-def init_game(): #finished
+def init_game(): #finished flowchart
     #no parameter
     #return none
     global grid,colour_objective,status,max_chance
@@ -31,24 +31,27 @@ def init_game(): #finished
         grid.append(grid_row)
         j+=1
     
-    #print(colour_translate(colour_objective)) #correct
-    #print(grid) #correct
-
-def spread(x,y,target_colour,new_colour):
+def spread(x,y,target_colour,new_colour): #flowchart
     #parameter coordinate x(int), coordinate y(int), target_colour(str), new_colour(str)
     #return none
     global grid
-    grid[x][y]=new_colour
-    if target_colour == grid[x][y-1]:
-        grid[x][y-1]=new_colour
-    if target_colour == grid[x+1][y]:
-        grid[x+1][y]=new_colour
-    if target_colour == grid[x][y+1]:
-        grid[x][y+1]=new_colour
-    if target_colour == grid[x-1][y]:
-        grid[x-1][y]=new_colour
-
-def check_win(): #finsihed ??
+    if target_colour == new_colour:
+        return
+    
+    colour_spread=[[x,y]]
+    while len(colour_spread)>0:
+        checking_x,checking_y=colour_spread.pop()
+        if checking_x < 0 or checking_x >= row or checking_y < 0 or checking_y >= column: #out of index check
+            continue
+        if grid[checking_x][checking_y] != target_colour:
+            continue
+        grid[checking_x][checking_y]=new_colour
+        colour_spread.append([checking_x-1,checking_y])
+        colour_spread.append([checking_x,checking_y-1])
+        colour_spread.append([checking_x+1,checking_y])
+        colour_spread.append([checking_x,checking_y+1])
+    
+def check_win(): #finsihed flowchart
     #no parameter
     #return bool
     global status
@@ -77,7 +80,6 @@ def get_colour_fill(colour): #finished
     #return none
     global colour_for_paint
     colour_for_paint=colour
-    #print(colour_translate(colour_for_paint)) #correct
 
 def draw_hud(): #finished 
     #no parameter
@@ -90,25 +92,9 @@ def draw_hud(): #finished
 def mouse_pressed():
     #no parameter
     #return none
-    #print(mouse_x,mouse_y)
     if status == 'LOSE' or status == 'WIN':
         return
-    if (mouse_x >= 0 and mouse_x<=400) and (mouse_y >= 0 and mouse_y <= 320): #game grid #correct
-        j=0
-        while j<row: #8
-            i=0
-            while i<column: #10
-                if (mouse_x >= i*40 and mouse_x <= (1+i)*40) and (mouse_y >= j*40 and mouse_y <= (1+j)*40):
-                    #print(i*40,j*40,(1+i)*40,(1+j)*40,colour_translate(grid[j][i])) #correct
-                    if grid[j][i] == colour_for_paint:
-                        return
-                    spread(j,i,grid[j][i],colour_for_paint)
-                    change_colour(mouse_x,mouse_y,colour_for_paint)
-                    #print(i,j,grid[j][i],colour_for_paint) #correct
-                i+=1
-            j+=1
-        
-        
+    
     if (mouse_x >= 80 and mouse_x<=360) and (mouse_y >= 360 and mouse_y <= 400): # select color grid #finished
         if (mouse_x >= 80 and mouse_x<=120) and (mouse_y >= 360 and mouse_y <= 400):# red
             get_colour_fill('#FF0066')
@@ -118,8 +104,23 @@ def mouse_pressed():
             get_colour_fill('#0099FF')
         elif (mouse_x >= 320 and mouse_x<=360) and (mouse_y >= 360 and mouse_y <= 400):# yellow
             get_colour_fill('#FFCC00')
+            
+    if colour_for_paint == 'N/A':
+        return
+    
+    if (mouse_x >= 0 and mouse_x<=400) and (mouse_y >= 0 and mouse_y <= 320): #game grid #correct
+        j=0
+        while j<row: #8
+            i=0
+            while i<column: #10
+                if (mouse_x >= i*40 and mouse_x <= (1+i)*40) and (mouse_y >= j*40 and mouse_y <= (1+j)*40):
+                    if grid[j][i] == colour_for_paint:
+                        return
+                    spread(j,i,grid[j][i],colour_for_paint)
+                    change_colour(mouse_x,mouse_y,colour_for_paint)
+                i+=1
+            j+=1
         
-
 def save_game(moves_left,target_final_color,game_state,board): #finished
     #parameter moves_left(int), target_final_color(str), game_state(str), board(2d array(list))
     #return none
@@ -144,10 +145,10 @@ def save_game(moves_left,target_final_color,game_state,board): #finished
     except FileNotFoundError:
         text(f'{datafile} not found',10,355)
 
-def load_game():
+def load_game(): #finished
     #no parameter 
     #return none
-    global max_chance,colour_objective,status,grid
+    global max_chance,colour_objective,status,grid,colour_for_paint
     data=[]
     try:
         with open(datafile,'r') as file: #read file
