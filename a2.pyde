@@ -62,10 +62,11 @@ def check_win(): #finsihed flowchart
         i=0
         while i<column: #10
             if grid[j][i] != colour_objective:
-                return
+                return False
             i+=1
         j+=1
     status='WIN'
+    return True
 
 def change_colour(x,y,new_colour): #finsihed
     #parameter coordinate x(int), coordinate y(int), new_colour(str)
@@ -73,7 +74,6 @@ def change_colour(x,y,new_colour): #finsihed
     global max_chance
     max_chance-=1
     check_win()
-    pass
 
 def get_colour_fill(colour): #finished
     #parameter colour(str)
